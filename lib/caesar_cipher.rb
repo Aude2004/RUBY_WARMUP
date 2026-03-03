@@ -1,5 +1,6 @@
-def valid_input?(input)
-  input.is_a?(String) && !input.empty?
+# Vérifie que les inputs sont valides
+def valid_input?(text, shift)
+  text.is_a?(String) && shift.is_a?(Integer)
 end
 
 def ascii_base(character)
@@ -13,18 +14,16 @@ def ascii_base(character)
 end
 
 
-def letter?(character)
-  ascii_base(character) != nil
+# Vérifie si un caractère est une lettre
+def letter?(char)
+  char.match?(/[a-zA-Z]/)
 end 
 
-def shift_letter(character, shift)
-  if letter?(character)
-    base = ascii_base(character)
-    shifted = (character.ord - base + shift) % 26 + base
-    return shifted.chr
-  else
-    return character
-  end
+# Décale une lettre en conservant la casse et rebouclage a→z ou A→Z
+def shift_letter(char, shift)
+    return char unless letter?(char)  # <-- protection contre les caractères non-alphabétiques
+    base = ascii_base(char)
+  ((char.ord - base + shift) % 26 + base).chr
 end
 
 def caesar_cipher(text, shift)
